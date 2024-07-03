@@ -19,6 +19,10 @@ export class SerializableClass implements Record<string, unknown> {
         this.apply(params)
     }
 
+    get $class() {
+        return this.constructor;
+    }
+
     get id() {
         if (!this.$data.id) {
             this.$data.id = globalThis.crypto.randomUUID();

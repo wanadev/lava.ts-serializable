@@ -18,6 +18,7 @@ describe("Class features of SerializableClass", function () {
             c1.meth1();
 
             expect($c).toBe(Cls1);
+            expect(c1.$class).toBe(Cls1);
             expect(Cls1.prototype.constructor).toBe(Cls1);
             expect(c1).toBeInstanceOf(Cls1);
         });
