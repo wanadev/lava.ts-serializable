@@ -223,7 +223,7 @@ describe("Class features of SerializableClass", function () {
             expect(c1.meth1()).toBe(Cls1);
         });
 
-        test.skip("[UNSUPPORTER] can access to their own name", function () {
+        test.skip("[UNSUPPORTED] can access to their own name", function () {
             class Cls1 extends Class {
                 meth1() {
                     return this.$name;
