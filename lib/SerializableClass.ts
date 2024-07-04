@@ -1,5 +1,5 @@
 import { getProperties } from "./class-helper";
-import { clone, serialize, unserialize } from "./serializers";
+import { clone, serialize } from "./serializers";
 
 export function serializable(method: any, serializable = true) {
     method.serializable = serializable;
