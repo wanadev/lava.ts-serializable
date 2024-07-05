@@ -1,4 +1,4 @@
-interface Serializable {
+export interface Serializable {
     __name__?: string
 }
 
