@@ -40,14 +40,14 @@ export class AutoSerializer<T extends SerializableClass> {
         if (data.id) {
             object.$data.id = data.id;
         }
-        for (const [propName, propDescriptor] of Object.entries(getProperties(object))) {
+        Object.entries(getProperties(object)).forEach(([propName, propDescriptor]) => {
             if (propDescriptor.get && propDescriptor.set
                 && !/@serializable false/.test(propDescriptor.set.toString())
                 && !/@serializable false/.test(propDescriptor.get.toString())
             ) {
-                if (data[propName] === undefined) continue;
+                if (data[propName] === undefined) return;
 
-                if (!isKeyOf(propName, object)) continue;
+                if (!isKeyOf(propName, object)) return;
                 const propertyName = propName as keyof T;
 
                 if (typeof data[propName] == "object") {
@@ -56,7 +56,7 @@ export class AutoSerializer<T extends SerializableClass> {
                     object[propertyName] = data[propName] as any;
                 }
             }
-        }
+        });
         return object;
     }
 }
