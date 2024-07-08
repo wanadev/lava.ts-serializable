@@ -25,7 +25,7 @@ export function addSerializer(serializer: Serializer<Serializable, Serialized>) 
 }
 
 export function getSerializerFromObject(object: any) {
-    if (object && object.__name__ && serializers[object.__name__]) {
+    if (object?.__name__ && serializers[object.__name__]) {
         return serializers[object.__name__];
     }
     for (const serializer of Object.values(serializers)) {
