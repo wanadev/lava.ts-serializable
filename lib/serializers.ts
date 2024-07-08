@@ -103,6 +103,5 @@ export function unserialize(data: Serialized) {
 export function clone<T extends Serializable>(object: T): T {
     const data = serialize(object);
     delete data.id;  // Do not clone the id!
-    // @ts-ignore
-    return unserialize(data);
+    return unserialize(data) as T;
 }
