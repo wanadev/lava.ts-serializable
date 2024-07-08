@@ -22,10 +22,11 @@ export class AutoSerializer<T extends SerializableClass> {
                 && !/@serializable false/.test(propDescriptor.set.toString())
                 && !/@serializable false/.test(propDescriptor.get.toString())
             ) {
-                if (typeof serializable[propName] == "object") {
-                    serialized[propName] = objectSerializer(serializable[propName]);
+                const prop = propName as string & keyof T;
+                if (typeof serializable[prop] == "object") {
+                    serialized[propName] = objectSerializer(serializable[prop]);
                 } else {
-                    serialized[propName] = serializable[propName];
+                    serialized[propName] = serializable[prop];
                 }
             }
         }
