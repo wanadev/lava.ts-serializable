@@ -6,7 +6,7 @@ export function serializable(method: any, serializable = true) {
     return method;
 }
 
-export class SerializableClass implements Record<string, unknown> {
+export class SerializableClass {
     [prop: string]: unknown
 
     $data: Record<string, unknown> = {};
