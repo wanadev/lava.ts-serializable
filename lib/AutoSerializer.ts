@@ -13,7 +13,7 @@ export class AutoSerializer<T extends SerializableClass> {
     }
 
     serialize(serializable: T) {
-        var serialized: Serialized = {
+        const serialized: Serialized = {
             __name__: serializable.__name__,
             id: serializable.id
         };
