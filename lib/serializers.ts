@@ -7,7 +7,7 @@ export interface Serialized {
     [prop: string]: unknown
 }
 
-export type Class<T> = { new(...args: any): T };
+export type Class<T> = new(...args: any) => T;
 
 export interface Serializer<T extends Serializable, S extends Serialized> {
     name: string
