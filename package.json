@@ -2,8 +2,9 @@
   "name": "@lava.ts/serializable",
   "version": "0.1.0",
   "description": "Library to manage Wanadev's projects, by replacing abitbol-serializable",
+  "type": "module",
   "scripts": {
-    "test": "vitest --config ./tests/vitest.config.ts"
+    "test": "vitest"
   },
   "keywords": [
     "lava",

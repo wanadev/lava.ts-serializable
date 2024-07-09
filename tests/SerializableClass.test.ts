@@ -33,7 +33,7 @@ describe("SerializableClass", function () {
     addSerializer(autoserializer);
 
     test("can deserialize values passed to the constructor", function () {
-        var test = new TestClass({
+        const test = new TestClass({
             foo: "bar",
             prop1: 42,
             prop2: 43,
@@ -47,7 +47,7 @@ describe("SerializableClass", function () {
     });
 
     test("Autoserializer serialize", function () {
-        var test = new TestClass({
+        const test = new TestClass({
             foo: "bar",
             prop1: 42,
             prop2: 43,
@@ -98,7 +98,7 @@ describe("SerializableClass", function () {
         class TestClass2 extends TestClass {
             __name__ = "TestClass2"
         };
-        var data = {
+        const data = {
             __name__: "TestClass2",
             id: "testid",
             prop3: 333
@@ -108,18 +108,18 @@ describe("SerializableClass", function () {
 
         addSerializer(new AutoSerializer("TestClass2", TestClass2));
 
-        var test = unserialize(data);
+        const test = unserialize(data);
 
         expect(test).toBeInstanceOf(TestClass2);
         expect((<TestClass2>test).serialize()).to.eql(data);
     });
 
     test("can clone itself (clone)", function () {
-        var test = new TestClass({
+        const test = new TestClass({
             prop3: "hello"
         });
 
-        var test2 = test.clone();
+        const test2 = test.clone();
 
         expect(test2).toBeInstanceOf(TestClass);
         expect(test2.prop3).to.equal(test.prop3);
@@ -145,12 +145,12 @@ describe("SerializableClass", function () {
 
         addSerializer(new AutoSerializer("Class1", Class1));
 
-        var c = new Class1({
+        const c = new Class1({
             object: { "a": "foo" },
             array: [1, 2, 3]
         });
 
-        var c2 = clone(c);
+        const c2 = clone(c);
 
         expect(c2.object).to.eql(c.object);
         expect(c2.object).not.toBe(c.object);

@@ -6,7 +6,7 @@ describe("Class features of SerializableClass", function () {
     describe("instances", function () {
 
         test("Accessor for class, use of prototype and constructor", function () {
-            var $c;
+            let $c;
 
             class Cls1 extends Class {
                 meth1() {
@@ -14,7 +14,7 @@ describe("Class features of SerializableClass", function () {
                 }
             };
 
-            var c1 = new Cls1();
+            const c1 = new Cls1();
             c1.meth1();
 
             expect($c).toBe(Cls1);
@@ -34,7 +34,7 @@ describe("Class features of SerializableClass", function () {
                 }
             }
 
-            var c1 = new Cls1();
+            const c1 = new Cls1();
             c1.meth1();
 
             expect(Object.getOwnPropertyNames(c1)).not.to.contain("$super");
@@ -51,9 +51,9 @@ describe("Class features of SerializableClass", function () {
             class Cls1 extends Class {
 
             }
-            var c1 = new Cls1();
+            const c1 = new Cls1();
 
-            var p;
+            let p;
             for (p in Cls1) {
                 expect(p).not.toEqual("$class");
                 expect(p).not.toEqual("$extend");
@@ -74,7 +74,7 @@ describe("Class features of SerializableClass", function () {
 
             }
 
-            var c1 = new Cls1();
+            const c1 = new Cls1();
 
             expect(c1.$data).toBeInstanceOf(Object);
         });
@@ -109,7 +109,7 @@ describe("Class features of SerializableClass", function () {
                 prop1 = "prop1"
             };
 
-            var c1 = new Cls1();
+            const c1 = new Cls1();
 
             expect(c1).toBeInstanceOf(Cls1);
             expect(c1.prop1).toEqual("prop1");
@@ -119,8 +119,8 @@ describe("Class features of SerializableClass", function () {
             class Cls1 extends Class { }
             class Cls2 extends Cls1 { }
 
-            var c1 = new Cls1();
-            var c2 = new Cls2();
+            const c1 = new Cls1();
+            const c2 = new Cls2();
 
             expect(c1).toBeInstanceOf(Class);
             expect(c1).toBeInstanceOf(Cls1);
@@ -140,7 +140,7 @@ describe("Class features of SerializableClass", function () {
                 prop2 = "prop2"
             }
 
-            var c2 = new Cls2();
+            const c2 = new Cls2();
 
             expect(c2.prop1).to.equal("prop1");
             expect(c2.prop2).to.equal("prop2");
@@ -155,7 +155,7 @@ describe("Class features of SerializableClass", function () {
                 prop1 = "override"
             }
 
-            var c2 = new Cls2();
+            const c2 = new Cls2();
 
             expect(c2.prop1).to.equal("override");
         });
@@ -218,7 +218,7 @@ describe("Class features of SerializableClass", function () {
                 }
             }
 
-            var c1 = new Cls1();
+            const c1 = new Cls1();
 
             expect(c1.meth1()).toBe(Cls1);
         });
@@ -230,7 +230,7 @@ describe("Class features of SerializableClass", function () {
                 }
             };
 
-            var c1 = new Cls1();
+            const c1 = new Cls1();
 
             expect(c1.meth1()).to.equal("meth1");
         });
@@ -246,7 +246,7 @@ describe("Class features of SerializableClass", function () {
                 }
             };
 
-            var c1 = new Cls1();
+            const c1 = new Cls1();
 
             expect(c1.meth1()).toBeUndefined();
             expect(c1.getProp1()).to.equal("prop1");
@@ -273,9 +273,9 @@ describe("Class features of SerializableClass", function () {
                 meth1() { }
             }
 
-            var c1 = new Cls1();
-            var c2 = new Cls2();
-            var c3 = new Cls3();
+            const c1 = new Cls1();
+            const c2 = new Cls2();
+            const c3 = new Cls3();
 
             c1.meth1("a", "b");
             c2.meth1("a", "b");
@@ -293,7 +293,7 @@ describe("Class features of SerializableClass", function () {
         });
 
         test.skip("[UNSUPPORTED] always has a 'this' binded to the current instance", () => new Promise<void>(done => {
-            var c1: Cls1;
+            let c1: Cls1;
 
             class Cls1 extends Class {
                 meth1() {
@@ -316,22 +316,22 @@ describe("Class features of SerializableClass", function () {
         test.skip("[UNSUPPORTED] are wrapped only when necessary", function () {
             class Cls1 extends Class {
                 noWrap() {
-                    var test = "nowrap";
+                    const test = "nowrap";
                 }
 
                 wrapSuper() {
-                    var test = "nowrap";
-                    var v = this.$super;
+                    const test = "nowrap";
+                    const v = this.$super;
                 }
 
                 wrapName() {
-                    var test = "nowrap";
-                    var v = this.$name;
+                    const test = "nowrap";
+                    const v = this.$name;
                 }
 
                 wrapComputed() {
-                    var test = "nowrap";
-                    var v = this.$computedPropertyName;
+                    const test = "nowrap";
+                    const v = this.$computedPropertyName;
                 }
             }
 
@@ -350,7 +350,7 @@ describe("Class features of SerializableClass", function () {
                 static static1 = "static1"
             };
 
-            var c1 = new Cls1();
+            const c1 = new Cls1();
 
             expect(Cls1.static1).to.equal("static1");
             expect(Cls1.prototype.static1).toBeUndefined();
@@ -364,7 +364,7 @@ describe("Class features of SerializableClass", function () {
 
             class Cls2 extends Cls1 { }
 
-            var c2 = new Cls2();
+            const c2 = new Cls2();
 
             expect(Cls2.static1).to.equal("static1");
             expect(Cls2.prototype.static1).toBeUndefined();
@@ -394,7 +394,7 @@ describe("Class features of SerializableClass", function () {
                 }
             };
 
-            var c1 = new Cls1();
+            const c1 = new Cls1();
 
             expect(c1.prop1).not.toBeUndefined()
             expect(c1.prop1).to.equal("prop1");
@@ -416,7 +416,7 @@ describe("Class features of SerializableClass", function () {
                 }
             }
 
-            var c1 = new Cls1();
+            const c1 = new Cls1();
 
             expect(c1.prop1).not.toBeUndefined()
 
@@ -442,7 +442,7 @@ describe("Class features of SerializableClass", function () {
                 }
             };
 
-            var c1 = new Cls1();
+            const c1 = new Cls1();
 
             Object.defineProperty(c1, "prop1", {
                 get() {

@@ -7,7 +7,7 @@ export interface Serialized {
     [prop: string]: unknown
 }
 
-export type Class<T> = { new(...args: any): T };
+export type Class<T> = new(...args: any) => T;
 
 export interface Serializer<T extends Serializable, S extends Serialized> {
     name: string
@@ -25,7 +25,7 @@ export function addSerializer(serializer: Serializer<Serializable, Serialized>) 
 }
 
 export function getSerializerFromObject(object: any) {
-    if (object && object.__name__ && serializers[object.__name__]) {
+    if (object?.__name__ && serializers[object.__name__]) {
         return serializers[object.__name__];
     }
     for (const serializer of Object.values(serializers)) {
@@ -58,11 +58,11 @@ export function objectSerializer(object: unknown) {
         if (typeof value != "object") {
             return;
         }
-        var serializer = getSerializerFromObject(value);
+        const serializer = getSerializerFromObject(value);
         if (!serializer) {
             return;
         }
-        var result = serializer.serialize(value);
+        const result = serializer.serialize(value);
         if (!result.__name__) {
             result.__name__ = serializer.name;
         }
@@ -78,7 +78,7 @@ export function objectUnserializer(object: unknown) {
         if (!value.__name__) {
             return;
         }
-        var serializer = getSerializerFromObject(value);
+        const serializer = getSerializerFromObject(value);
         if (!serializer) {
             return;
         }
@@ -101,8 +101,7 @@ export function unserialize(data: Serialized) {
 }
 
 export function clone<T extends Serializable>(object: T): T {
-    var data = serialize(object);
+    const data = serialize(object);
     delete data.id;  // Do not clone the id!
-    // @ts-ignore
-    return unserialize(data);
+    return unserialize(data) as T;
 }

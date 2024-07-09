@@ -6,8 +6,7 @@ export function serializable(method: any, serializable = true) {
     return method;
 }
 
-export class SerializableClass implements Record<string, unknown> {
-    [prop: string]: unknown
+export class SerializableClass {
 
     $data: Record<string, unknown> = {};
     __name__: string = "LavaSerializableClass"
@@ -46,7 +45,7 @@ export class SerializableClass implements Record<string, unknown> {
         for (const prop in descriptors) {
             if (descriptors[prop].get && descriptors[prop].set) {
                 if (data[prop] !== undefined) {
-                    this[prop] = data[prop];
+                    this[prop as keyof this] = data[prop] as any;
                 }
             }
         }
