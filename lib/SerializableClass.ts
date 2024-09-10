@@ -22,11 +22,11 @@ export class SerializableClass {
         return this.constructor;
     }
 
-    get id() {
+    get id(): string {
         if (!this.$data.id) {
             this.$data.id = globalThis.crypto.randomUUID();
         }
-        return this.$data.id;
+        return this.$data.id as string;
     }
 
     /**
