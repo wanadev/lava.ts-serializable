@@ -8,6 +8,8 @@ stages:          # List of stages for jobs, and their order of execution
 
 .node:
     image: node:lts
+    before_script:
+      - npm i
 
 build-job:       # This job runs in the build stage, which runs first.
   stage: build
