@@ -223,36 +223,6 @@ describe("Class features of SerializableClass", function () {
             expect(c1.meth1()).toBe(Cls1);
         });
 
-        test.skip("[UNSUPPORTED] can access to their own name", function () {
-            class Cls1 extends Class {
-                meth1() {
-                    return this.$name;
-                }
-            };
-
-            const c1 = new Cls1();
-
-            expect(c1.meth1()).to.equal("meth1");
-        });
-
-        test.skip("[UNSUPPORTED] can access to their related computed property name if any", function () {
-            class Cls1 extends Class {
-                meth1() {
-                    return this.$computedPropertyName;
-                }
-
-                getProp1() {
-                    return this.$computedPropertyName;
-                }
-            };
-
-            const c1 = new Cls1();
-
-            expect(c1.meth1()).toBeUndefined();
-            expect(c1.getProp1()).to.equal("prop1");
-            expect(c1.prop1).to.equal("prop1");
-        });
-
         test("can call their super method", function () {
             class Cls1 extends Class {
                 param1?: string
@@ -292,55 +262,6 @@ describe("Class features of SerializableClass", function () {
             expect(c3.param2).toBeUndefined();
         });
 
-        test.skip("[UNSUPPORTED] always has a 'this' binded to the current instance", () => new Promise<void>(done => {
-            let c1: Cls1;
-
-            class Cls1 extends Class {
-                meth1() {
-                    return this;
-                }
-
-                meth2() {
-                    expect(this).toBe(c1);
-                    done();
-                }
-            };
-
-            c1 = new Cls1();
-
-            expect(c1.meth1()).toBe(c1);
-
-            setTimeout(c1.meth2, 1);
-        }));
-
-        test.skip("[UNSUPPORTED] are wrapped only when necessary", function () {
-            class Cls1 extends Class {
-                noWrap() {
-                    const test = "nowrap";
-                }
-
-                wrapSuper() {
-                    const test = "nowrap";
-                    const v = this.$super;
-                }
-
-                wrapName() {
-                    const test = "nowrap";
-                    const v = this.$name;
-                }
-
-                wrapComputed() {
-                    const test = "nowrap";
-                    const v = this.$computedPropertyName;
-                }
-            }
-
-            expect(Cls1.prototype.noWrap.toString()).to.match(/.*nowrap.*/);
-            expect(Cls1.prototype.wrapSuper.toString()).not.to.match(/.*nowrap.*/);
-            expect(Cls1.prototype.wrapName.toString()).not.to.match(/.*nowrap.*/);
-            expect(Cls1.prototype.wrapComputed.toString()).not.to.match(/.*nowrap.*/);
-        });
-
     });
 
     describe("static properties", function () {
@@ -353,7 +274,9 @@ describe("Class features of SerializableClass", function () {
             const c1 = new Cls1();
 
             expect(Cls1.static1).to.equal("static1");
+            // @ts-expect-error undefined static property
             expect(Cls1.prototype.static1).toBeUndefined();
+            // @ts-expect-error undefined property
             expect(c1.static1).toBeUndefined();
         });
 
@@ -367,7 +290,9 @@ describe("Class features of SerializableClass", function () {
             const c2 = new Cls2();
 
             expect(Cls2.static1).to.equal("static1");
+            // @ts-expect-error undefined static property
             expect(Cls2.prototype.static1).toBeUndefined();
+            // @ts-expect-error undefined property
             expect(c2.static1).toBeUndefined();
         });
 
