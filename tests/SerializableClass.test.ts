@@ -87,6 +87,7 @@ describe("SerializableClass", function () {
         });
 
         expect(test.id).to.equal("testid");
+        // @ts-expect-error undefined property
         expect(test.noprop).toBeUndefined();
         expect(test.prop1).to.equal(1);
         expect(test.prop2).to.equal(2);
@@ -158,5 +159,22 @@ describe("SerializableClass", function () {
         expect(c2.array).not.toBe(c.array);
     });
 
+    test("override initialize to define default values", () => {
+        class TestClass extends SerializableClass {
+            declare $data: {
+                count: number;
+            }
+            protected override initialize(params?: Record<string, unknown>): void {
+                this.$data.count = 1;
+                super.initialize(params)
+            }
 
+            get count() {
+                return this.$data.count;
+            }
+        }
+
+        const c = new TestClass();
+        expect(c.count).toBe(1);
+    })
 });

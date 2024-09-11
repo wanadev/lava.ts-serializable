@@ -15,7 +15,11 @@ export class SerializableClass {
         Object.defineProperty(this, "$data", {
             enumerable: false,
         });
-        this.apply(params)
+        this.initialize(params)
+    }
+
+    protected initialize(params?: Record<string, unknown>) {
+        this.apply(params);
     }
 
     get $class() {
