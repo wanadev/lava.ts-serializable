@@ -87,6 +87,7 @@ describe("SerializableClass", function () {
         });
 
         expect(test.id).to.equal("testid");
+        // @ts-expect-error undefined property
         expect(test.noprop).toBeUndefined();
         expect(test.prop1).to.equal(1);
         expect(test.prop2).to.equal(2);
