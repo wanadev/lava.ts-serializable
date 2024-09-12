@@ -1,6 +1,6 @@
 {
   "name": "@lava.ts/serializable",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Library to manage Wanadev's projects, by replacing abitbol-serializable",
   "type": "module",
   "scripts": {
