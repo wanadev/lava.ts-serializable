@@ -159,5 +159,22 @@ describe("SerializableClass", function () {
         expect(c2.array).not.toBe(c.array);
     });
 
+    test("override initialize to define default values", () => {
+        class TestClass extends SerializableClass {
+            declare $data: {
+                count: number;
+            }
+            protected override initialize(params?: Record<string, unknown>): void {
+                this.$data.count = 1;
+                super.initialize(params)
+            }
 
+            get count() {
+                return this.$data.count;
+            }
+        }
+
+        const c = new TestClass();
+        expect(c.count).toBe(1);
+    })
 });
