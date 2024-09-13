@@ -6,19 +6,29 @@ export function serializable(method: any, serializable = true) {
     return method;
 }
 
-export class SerializableClass {
+export interface SerializableClassData {
+    id: string;
+    [prop: string]: unknown;
+}
 
-    $data: Record<string, unknown> = {};
+export interface SerializableProperties {
+    id: string;
+    [prop: string]: unknown;
+}
+
+export class SerializableClass {
+    $data: SerializableClassData;
     __name__: string = "LavaSerializableClass"
 
-    constructor(params?: Record<string, unknown>) {
+    constructor(params?: Partial<SerializableProperties>) {
+        this.$data = {} as SerializableClassData; // type will be complete after initialize
         Object.defineProperty(this, "$data", {
             enumerable: false,
         });
         this.initialize(params)
     }
 
-    protected initialize(params?: Record<string, unknown>) {
+    protected initialize(params?: Partial<SerializableProperties>) {
         this.apply(params);
     }
 
@@ -30,7 +40,7 @@ export class SerializableClass {
         if (!this.$data.id) {
             this.$data.id = globalThis.crypto.randomUUID();
         }
-        return this.$data.id as string;
+        return this.$data.id;
     }
 
     /**
@@ -38,11 +48,11 @@ export class SerializableClass {
      *
      * @param data - The data to apply.
      */
-    apply(data?: Record<string, unknown>) {
+    apply(data?: Partial<SerializableProperties>) {
         if (!data) {
             return;
         }
-        if (data.id) {
+        if (typeof data.id === "string") {
             this.$data.id = data.id;
         }
         const descriptors = getProperties(this);

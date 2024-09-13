@@ -1,12 +1,19 @@
 import { describe, test, expect } from "vitest";
-import { SerializableClass } from "../lib/SerializableClass";
+import { SerializableClass, type SerializableClassData } from "../lib/SerializableClass";
 import { addSerializer, unserialize, clone } from "../lib/serializers";
 import { AutoSerializer } from "../lib/AutoSerializer";
 
 describe("SerializableClass", function () {
 
+    interface TestClassData extends SerializableClassData {
+        prop3: number;
+        prop4: number;
+    }
+
     class TestClass extends SerializableClass {
         __name__ = "TestClass"
+        declare $data: TestClassData;
+
         meth1() { }
         prop1 = 1
         get prop2() {
@@ -161,7 +168,7 @@ describe("SerializableClass", function () {
 
     test("override initialize to define default values", () => {
         class TestClass extends SerializableClass {
-            declare $data: {
+            declare $data: SerializableClassData & {
                 count: number;
             }
             protected override initialize(params?: Record<string, unknown>): void {
