@@ -38,7 +38,7 @@ export class AutoSerializer<T extends SerializableClass> {
             throw new TypeError("WrongClassUnserialization");
         }
         const object = new (this.class)();
-        if (data.id) {
+        if (data.id && typeof data.id === "string") {
             object.$data.id = data.id;
         }
         Object.entries(getProperties(object)).forEach(([propName, propDescriptor]) => {
