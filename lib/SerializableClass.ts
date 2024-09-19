@@ -17,11 +17,15 @@ export interface SerializableProperties {
 }
 
 export class SerializableClass {
+    static __name__ = "LavaSerializableClass";
+    __name__: string = SerializableClass.__name__;
     $data: SerializableClassData;
-    __name__: string = "LavaSerializableClass"
 
     constructor(params?: Partial<SerializableProperties>) {
         this.$data = {} as SerializableClassData; // type will be complete after initialize
+        if ("__name__" in this.$class && typeof this.$class.__name__ === "string") {
+            this.__name__ = this.$class.__name__;
+        }
         Object.defineProperty(this, "$data", {
             enumerable: false,
         });

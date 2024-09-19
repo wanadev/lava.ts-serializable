@@ -11,7 +11,7 @@ describe("SerializableClass", function () {
     }
 
     class TestClass extends SerializableClass {
-        __name__ = "TestClass"
+        static __name__ = "TestClass"
         declare $data: TestClassData;
 
         meth1() { }
@@ -38,6 +38,25 @@ describe("SerializableClass", function () {
     const autoserializer = new AutoSerializer("TestClass", TestClass);
 
     addSerializer(autoserializer);
+
+    describe("__name__ property from static property", () => {
+        test("it gets __name__ from Class static __name__", () => {
+            const test = new TestClass();
+            expect(test.__name__).toEqual("TestClass");
+        })
+
+        test("by default, it uses SerializableClass __name__", () => {
+            class NoNameClass extends SerializableClass {};
+            const test = new NoNameClass();
+            expect(test.__name__).toEqual(SerializableClass.__name__);
+        })
+
+        test("if not present, it uses __name__ from parent class", () => {
+            class NoNameClass extends TestClass {};
+            const test = new NoNameClass();
+            expect(test.__name__).toEqual(TestClass.__name__);
+        })
+    })
 
     test("can deserialize values passed to the constructor", function () {
         const test = new TestClass({
@@ -104,7 +123,7 @@ describe("SerializableClass", function () {
 
     test("can unserialize any class derivated from SerializableClass (addSerializer/unserialize/serialize)", function () {
         class TestClass2 extends TestClass {
-            __name__ = "TestClass2"
+            static __name__ = "TestClass2"
         };
         const data = {
             __name__: "TestClass2",
@@ -136,7 +155,7 @@ describe("SerializableClass", function () {
 
     test("makes deep copies of object/array properties", function () {
         class Class1 extends SerializableClass {
-            __name__ = "Class1"
+            static __name__ = "Class1"
             get object() {
                 return this.$data.object;
             }
