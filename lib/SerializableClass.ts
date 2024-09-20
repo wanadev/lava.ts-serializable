@@ -17,8 +17,8 @@ export interface SerializableProperties {
 }
 
 export class SerializableClass {
-    static __name__ = "LavaSerializableClass";
-    __name__: string = SerializableClass.__name__;
+    static readonly __name__: string = "LavaSerializableClass";
+    readonly __name__: string = SerializableClass.__name__;
     $data: SerializableClassData;
 
     constructor(params?: Partial<SerializableProperties>) {

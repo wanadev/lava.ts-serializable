@@ -56,6 +56,14 @@ describe("SerializableClass", function () {
             const test = new NoNameClass();
             expect(test.__name__).toEqual(TestClass.__name__);
         })
+
+        test("sub-child class can define a static name", () => {
+            class TestClass2 extends TestClass {
+                static __name__ = "TestClass2";
+            };
+            const test = new TestClass2();
+            expect(test.__name__).toEqual("TestClass2");
+        })
     })
 
     test("can deserialize values passed to the constructor", function () {
