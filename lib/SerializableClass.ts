@@ -23,8 +23,8 @@ export class SerializableClass {
 
     constructor(params?: Partial<SerializableProperties>) {
         this.$data = {} as SerializableClassData; // type will be complete after initialize
-        if ("__name__" in this.$class && typeof this.$class.__name__ === "string") {
-            this.__name__ = this.$class.__name__;
+        if ("__name__" in this.constructor && typeof this.constructor.__name__ === "string") {
+            this.__name__ = this.constructor.__name__;
         }
         Object.defineProperty(this, "$data", {
             enumerable: false,
