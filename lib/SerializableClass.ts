@@ -18,14 +18,10 @@ export interface SerializableProperties {
 
 export class SerializableClass {
     static readonly __name__: string = "LavaSerializableClass";
-    readonly __name__: string = SerializableClass.__name__;
-    $data: SerializableClassData;
+    readonly $data: SerializableClassData;
 
     constructor(params?: Partial<SerializableProperties>) {
         this.$data = {} as SerializableClassData; // type will be complete after initialize
-        if ("__name__" in this.constructor && typeof this.constructor.__name__ === "string") {
-            this.__name__ = this.constructor.__name__;
-        }
         Object.defineProperty(this, "$data", {
             enumerable: false,
         });
@@ -38,6 +34,13 @@ export class SerializableClass {
 
     get $class() {
         return this.constructor;
+    }
+
+    get __name__(): string {
+        if ("__name__" in this.constructor && typeof this.constructor.__name__ === "string") {
+            return this.constructor.__name__;
+        }
+        return "";
     }
 
     get id(): string {

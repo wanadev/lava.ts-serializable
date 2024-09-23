@@ -64,6 +64,18 @@ describe("SerializableClass", function () {
             const test = new TestClass2();
             expect(test.__name__).toEqual("TestClass2");
         })
+
+        test("name cannot be set", () => {
+            class TestClass2 extends TestClass {
+                static __name__ = "TestClass2";
+            };
+            const test = new TestClass2();
+            expect(() => {
+                // @ts-expect-error cannot set a getter-only property
+                test.__name__ = "fake name";
+            }).toThrow();
+            expect(test.__name__).toEqual("TestClass2");
+        })
     })
 
     test("can deserialize values passed to the constructor", function () {
