@@ -17,8 +17,8 @@ export interface SerializableProperties {
 }
 
 export class SerializableClass {
-    $data: SerializableClassData;
-    __name__: string = "LavaSerializableClass"
+    static readonly __name__: string = "LavaSerializableClass";
+    readonly $data: SerializableClassData;
 
     constructor(params?: Partial<SerializableProperties>) {
         this.$data = {} as SerializableClassData; // type will be complete after initialize
@@ -34,6 +34,13 @@ export class SerializableClass {
 
     get $class() {
         return this.constructor;
+    }
+
+    get __name__(): string {
+        if ("__name__" in this.constructor && typeof this.constructor.__name__ === "string") {
+            return this.constructor.__name__;
+        }
+        return "";
     }
 
     get id(): string {

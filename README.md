@@ -23,7 +23,7 @@ import { AutoSerializer } from "@lava.ts/serializable/lib/AutoSerializer";
 import { addSerializer } from "@lava.ts/serializable/lib/serializers";
 
 export class MyDataClass extends SerializableClass {
-    __name__ = "my-data-class"; // name for serializable class
+    static __name__ = "my-data-class"; // name for serializable class
 
     declare $data: { // raw data
         position: number,
@@ -69,7 +69,7 @@ export class MyDataClass extends SerializableClass {
 
 // AutoSerializer serializes all fields with a getter and a setter
 // expect if directive `"@serializable false"` has been set
-const autoserializer = new AutoSerializer("my-data-class", MyDataClass);
+const autoserializer = new AutoSerializer(MyDataClass);
 
 addSerializer(autoserializer);
 
