@@ -7,8 +7,8 @@ export class AutoSerializer<T extends SerializableClass> {
     public class: Class<T>
     public name: string
 
-    constructor(name: string, aClass: Class<T>) {
-        this.name = name;
+    constructor(aClass: Class<T> & { __name__: string }) {
+        this.name = aClass.__name__;
         this.class = aClass;
     }
 

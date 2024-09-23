@@ -35,7 +35,7 @@ describe("SerializableClass", function () {
         }
     }
 
-    const autoserializer = new AutoSerializer("TestClass", TestClass);
+    const autoserializer = new AutoSerializer(TestClass);
 
     addSerializer(autoserializer);
 
@@ -153,7 +153,7 @@ describe("SerializableClass", function () {
 
         expect(() => unserialize(data)).toThrow(/MissingSerializer/);
 
-        addSerializer(new AutoSerializer("TestClass2", TestClass2));
+        addSerializer(new AutoSerializer(TestClass2));
 
         const test = unserialize(data);
 
@@ -190,7 +190,7 @@ describe("SerializableClass", function () {
             }
         }
 
-        addSerializer(new AutoSerializer("Class1", Class1));
+        addSerializer(new AutoSerializer(Class1));
 
         const c = new Class1({
             object: { "a": "foo" },
