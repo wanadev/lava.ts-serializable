@@ -2,6 +2,7 @@ import { describe, test, expect } from "vitest";
 import { SerializableClass, type SerializableClassData } from "../lib/SerializableClass";
 import { addSerializer, unserialize, clone } from "../lib/serializers";
 import { AutoSerializer } from "../lib/AutoSerializer";
+import { getProperties } from "../lib/class-helper";
 
 describe("SerializableClass", function () {
 
@@ -276,6 +277,63 @@ describe("SerializableClass", function () {
         expect(test).toMatchObject({
             id: "123",
             object: null,
+        });
+    })
+
+    test("annotations are read on prototype, not on instance", () => {
+        class TestClass2 extends TestClass {
+            static __name__ = "TestClass2"
+
+            initialize(params: any) {
+                const prop4Descriptor = getProperties(this).prop4;
+                Object.defineProperty(this, "prop4", {
+                    ...prop4Descriptor,
+                    set: function(value) {
+                        prop4Descriptor.set!.bind(this)(value);
+                    },
+                    get: function() {
+                        return prop4Descriptor.get!.bind(this)();
+                    }
+                });
+                super.initialize(params);
+            }
+
+            get prop5() {
+                return this.$data.prop5;
+            }
+
+            set prop5(value) {
+                this.$data.prop5 = value;
+            }
+        };
+
+        class TestClass3 extends TestClass2 {
+            static __name__ = "TestClass3"
+
+            get prop6() {
+                return this.$data.prop6;
+            }
+
+            set prop6(value) {
+                this.$data.prop6 = value;
+            }
+        }
+
+        const test = new TestClass3();
+        test.prop3 = 3;
+        test.prop4 = 4; // @serializable false;
+        test.prop5 = 5;
+        test.prop6 = 6;
+
+        const autoserializer = new AutoSerializer(TestClass3);
+        const serialized = autoserializer.serialize(test);
+        expect("prop4" in serialized).toBe(false);
+        expect(serialized).to.eql({
+            __name__: "TestClass3",
+            id: test.id,
+            prop3: 3,
+            prop5: 5,
+            prop6: 6,
         });
     })
 });

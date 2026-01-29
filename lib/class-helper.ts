@@ -2,7 +2,7 @@ type PropertyDescriptors<T> = { [P in keyof T]: TypedPropertyDescriptor<T[P]>; }
 
 export function getProperties<T>(object: T): PropertyDescriptors<T> {
     const prototypes = [];
-    let prototype = object;
+    let prototype = Object.getPrototypeOf(object);
     while (prototype !== Object.prototype) {
         prototypes.unshift(prototype);
         prototype = Object.getPrototypeOf(prototype);
