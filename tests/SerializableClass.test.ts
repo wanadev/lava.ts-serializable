@@ -223,4 +223,59 @@ describe("SerializableClass", function () {
         const c = new TestClass();
         expect(c.count).toBe(1);
     })
+
+    test("it can serialize null value", () => {
+        class Class1 extends SerializableClass {
+            static __name__ = "Class1"
+            get object() {
+                return this.$data.object;
+            }
+            set object(o) {
+                this.$data.object = o;
+            }
+        }
+
+        const autoserializer = new AutoSerializer(Class1);
+        addSerializer(autoserializer);
+
+        const test = new Class1({
+            object: null,
+        });
+
+        const serialized = autoserializer.serialize(test);
+
+        expect(serialized).to.eql({
+            __name__: "Class1",
+            id: test.id,
+            object: null,
+        });
+    })
+
+    test("it can unserialize null value", () => {
+        class Class1 extends SerializableClass {
+            static __name__ = "Class1"
+            get object() {
+                return this.$data.object;
+            }
+            set object(o) {
+                this.$data.object = o;
+            }
+        }
+
+        const autoserializer = new AutoSerializer(Class1);
+        addSerializer(autoserializer);
+
+        const test = autoserializer.unserialize({
+            __name__: "Class1",
+            id: "123",
+            object: null,
+        });
+
+        expect(test).toBeInstanceOf(Class1);
+
+        expect(test).toMatchObject({
+            id: "123",
+            object: null,
+        });
+    })
 });

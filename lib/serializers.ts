@@ -36,17 +36,20 @@ export function getSerializerFromObject(object: any) {
     return null;
 }
 
-function cloneDeepWith<T>(object: T, customizer: (value: any) => any): T {
+function cloneDeepWith<T>(object: any, customizer: (value: any) => any): unknown {
     const customClone = customizer(object);
     if (customClone !== undefined) return customClone;
 
     if (typeof object !== "object") {
         return object;
     }
+    if (object === null) {
+        return null;
+    }
     if (Array.isArray(object)) {
         return object.map(item => cloneDeepWith(item, customizer)) as T;
     }
-    const clone: T = { ...object };
+    const clone: any = { ...object };
     for (const prop in object) {
         clone[prop] = cloneDeepWith(object[prop], customizer);
     }
