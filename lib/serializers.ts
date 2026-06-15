@@ -28,6 +28,12 @@ export function getSerializerFromObject(object: any) {
     if (object?.__name__ && serializers[object.__name__]) {
         return serializers[object.__name__];
     }
+    if (Array.isArray(object)) {
+        return null;
+    }
+    if (Object.getPrototypeOf(object) === Object.prototype) {
+        return null;
+    }
     for (const serializer of Object.values(serializers)) {
         if (serializer.class && object instanceof serializer.class) {
             return serializer;
@@ -58,7 +64,7 @@ function cloneDeepWith<T>(object: any, customizer: (value: any) => any): unknown
 
 export function objectSerializer(object: unknown) {
     return cloneDeepWith(object, function (value) {
-        if (typeof value != "object") {
+        if (typeof value != "object" || value === null) {
             return;
         }
         const serializer = getSerializerFromObject(value);
